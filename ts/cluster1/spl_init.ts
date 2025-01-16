@@ -1,6 +1,6 @@
 import { Keypair, Connection, Commitment } from "@solana/web3.js";
 import { createMint } from '@solana/spl-token';
-import wallet from "../wba-wallet.json"
+import wallet from "../turbin3-wallet.json"
 
 // Import our keypair from the wallet file
 const keypair = Keypair.fromSecretKey(new Uint8Array(wallet));
@@ -13,7 +13,18 @@ const connection = new Connection("https://api.devnet.solana.com", commitment);
     try {
         // Start here
         // const mint = ???
-    } catch(error) {
+
+        const mint = await createMint(
+            connection, 
+            keypair, 
+            keypair.publicKey,
+            null,
+            6 // 6 decimal places 
+        );
+          // Output the mint address (in base58 format) after successful creation
+          console.log(` Success! Mint created at ${mint.toBase58()}`);
+
+     } catch(error) {
         console.log(`Oops, something went wrong: ${error}`)
     }
 })()
